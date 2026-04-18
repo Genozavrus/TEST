@@ -32,14 +32,14 @@ while IFS=',' read -r id location_id name position email; do
         continue
     fi
 
-    # Удаление кавычек из данных
+  
     id=$(remove_quotes "$id")
     location_id=$(remove_quotes "$location_id")
     name=$(remove_quotes "$name")
     position=$(remove_quotes "$position")
     email=$(remove_quotes "$email")
 
-    # Приведение имени к требуемому формату
+   
     name_cleaned=$(echo "$name" | awk '{
         split($0, a, " ")
         for (i in a) {
@@ -48,11 +48,11 @@ while IFS=',' read -r id location_id name position email; do
         print a[1] " " a[2]
     }')
 
-    # Генерация email
+ 
     first_letter=$(echo "$name" | awk '{print tolower(substr($1, 1, 1))}')
     surname=$(echo "$name" | awk '{print tolower($2)}')
 
-    # Проверка на пустое имя или некорректные данные
+    
     if [ -z "$first_letter" ] || [ -z "$surname" ]; then
         email_new=""
     else
@@ -64,7 +64,7 @@ while IFS=',' read -r id location_id name position email; do
         fi
     fi
 
-    # Запись строки в выходной файл
+   
     echo "$id,$location_id,$name_cleaned,$position,$email_new," >> "$output_file"
 done < "$input_file"
 
