@@ -1,32 +1,30 @@
 #!/bin/bash
 
-# Проверяем, передан ли путь к файлу
+
 if [ "$#" -ne 1 ]; then
     echo "Использование: $0 <путь_к_accounts.csv>"
     exit 1
 fi
 
-# Определяем входной и выходной файлы
+
 input_file=$1
 output_file="accounts_new.csv"
 
-# Проверяем, существует ли входной файл
 if [ ! -f "$input_file" ]; then
     echo "Ошибка: Файл $input_file не найден!"
     exit 1
 fi
 
-# Создаём или очищаем выходной файл
+
 > "$output_file"
 
-# Функция для удаления кавычек из строки
 remove_quotes() {
     echo "$1" | sed 's/^"//;s/"$//;s/""/"/g'
 }
 
-# Обрабатываем входной файл построчно
+
 while IFS=',' read -r id location_id name position email; do
-    # Пропускаем заголовок
+   
     if [ "$id" == "id" ]; then
         echo "$id,$location_id,name,position,email," >> "$output_file"
         continue
